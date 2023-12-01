@@ -9,7 +9,7 @@ info:
 
     Some useful links:
     - [The CozyLink Backend repository](https://github.com/cozy-link/cozylink-backend)
-    - [The source API definition for the CozyLink Backend](https://github.com/cozy-link/cozylink-backend)
+    - [The source API definition for the CozyLink Backend](https://github.com/cozy-link/cozylink-backend/blob/main/src/resources/openapi3_0.yaml)
 
   termsOfService: http://swagger.io/terms/
   contact:
@@ -19,8 +19,8 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.11
 externalDocs:
-  description: Find out more about Swagger
-  url: http://swagger.io
+  description: Swagger Editor
+  url:https://editor-next.swagger.io/
 servers:
   - url: https://petstore3.swagger.io/api/v3
 tags:
