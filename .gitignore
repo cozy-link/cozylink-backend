@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# VS Code
+.vscode
+
+# yarn error logs
+yarn-error.log
+
+# Environment
+.env*
+!.env*.example
+
+# Code coverage
+coverage
+
+# Misc
+.DS_Store
