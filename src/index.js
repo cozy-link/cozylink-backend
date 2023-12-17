@@ -1,16 +1,15 @@
 const app = require('./app');
 const config = require('./config/config');
 const logger = require('./config/logger');
-const sequelize = require('./config/db');
+const db = require('./config/db');
 
 let server;
-sequelize.authenticate().
-  then(() => {
-    logger.info('Connected to Postgres Server');
-    server = app.listen(config.port, () => {
-      logger.info(`Listening to port ${config.port}`);
-    });
+db.connect().then(() => {
+  logger.info('Connected to Postgres Server');
+  server = app.listen(config.port, () => {
+    logger.info(`Listening to port ${config.port}`);
   });
+});
 
 const exitHandler = () => {
   if (server) {

@@ -1,59 +1,42 @@
-const { Sequelize, Model, DataTypes } = require('sequelize');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
-const sequelize = require('../config/db');
+const db = require('../config/db');
 const { roles } = require('../config/roles');
 
-class User extends Model {}
+const userModel = {
+  async findById(id) {
+    const query = `SELECT * FROM users WHERE id = $1`;
+    const params = [id];
+    const { rows } = await db.query(query, params);
+    return rows[0];
+  },
 
-User.init({
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    trim: true
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-    trim: true,
-    lowercase: true,
-    validate: {
-      isEmail: true,
-      isValidEmail(value) {
-        if (!validator.isEmail(value)) {
-          throw new Error('Email is invalid');
-        }
-      }
+  async create(user) {
+    if (!user.name) {
+      throw new Error('Name is required');
     }
-  },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    trim: true,
-    validate: {
-      len: [6, 20],
-      isStrongPassword(value) {
-        if (!value.match(/\d/) || !value.match(/[a-zA-Z]/)) {
-          throw new Error('Password must contain at least one letter and one number');
-        }
-      }
+    if (!user.email) {
+      throw new Error('Email is required');
     }
-  },
-  role: {
-    type: DataTypes.STRING,
-    defaultValue: 'user',
-    validate: {
-      isIn: [roles]
+    if (!validator.isEmail(user.email)) {
+      throw new Error('Email is invalid');
     }
-  },
-  isEmailVerified: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false
-  },
-}, {
-  sequelize,
-  modelName: 'User',
-});
+    if (!user.password) {
+      throw new Error('Password is required');
+    }
+    if (!user.role) {
+      throw new Error('Role is required');
+    }
+    if (!Object.values(roles).includes(user.role)) {
+      throw new Error('Role does not exist');
+    }
 
-module.exports = User;
+    const cryptPassword = await bcrypt.hash(user.password, 8);
+    const query = `INSERT INTO users (name, email, password, role) VALUES ($1, $2, $3, $4) RETURNING *`;
+    const params = [user.name, user.email, cryptPassword, user.role];
+    const { rows } = await db.query(query, params);
+    return rows[0];
+  },
+};
+
+module.exports = userModel;
