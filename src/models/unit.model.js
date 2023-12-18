@@ -64,8 +64,4 @@ Unit.init(
   }
 );
 
-(async () => {
-  await sequelize.sync({ force: true });
-})();
-
 module.exports = Unit;
