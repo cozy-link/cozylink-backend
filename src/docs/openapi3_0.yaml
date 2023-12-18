@@ -193,6 +193,10 @@ components:
       type: object
       required:
         - id
+        - title
+        - size
+        - startDate
+        - endDate
       properties:
         id:
           type: integer
@@ -200,74 +204,47 @@ components:
           example: 100000
         title:
           type: string
-        description:
+          example: '91 Brown Street'
+        numOfBedroom:
+          type: integer
+          default: 0
+        numOfBathroom:
+          type: integer
+          default: 0
+        unitArea:
+          type: integer
+          minimum: 0
+          description: "in square feet"
+        isFurnished:
+          type: boolean
+          default: false
+        inRoomLaundry:
+          type: boolean
+          default: false
+        baseFeePerMonth:
+          type: number
+          minimum: 0
+          description: "in USD"
+        utilityFeePerMonth:
+          type: number
+          minimum: 0
+          description: "in USD"
+        internetFeePerMonth:
+          type: number
+          minimum: 0
+          description: "in USD"
+        startDate:
           type: string
-        propertyType:
+          format: date
+        endDate:
           type: string
-        roomType:
-          type: string
-        unitDetail:
-          items:
-            $ref: '#/components/schemas/UnitDetail'
-        pricing:
-          items:
-            $ref: '#/components/schemas/Pricing'
-        availability:
-          items:
-            $ref: '#/components/schemas/Availability'
-        owner:
-          items:
-            $ref: '#/components/schemas/Owner'
-        policy:
-          items:
-            $ref: '#/components/schemas/Policy'
-        review:
-          items:
-            $ref: '#/components/schemas/Review'
-        location:
-          type: array
-          items:
-            $ref: '#/components/schemas/Location'
+          format: date
         photo:
           type: array
           items:
-            $ref: '#/components/schemas/Photo'
-    UnitDetail:
-      type: object
-      properties:
-        bedrooms:
-          type: integer
-        beds:
-          type: integer
-        bathrooms:
-          type: number
-        maxOccupancy:
-          type: integer
-        amenities:
-          type: array
-          items:
             type: string
-    Pricing:
-      type: object
-      properties:
-        basePrice:
-          type: number
-        cleaningFee:
-          type: number
-        extraPersonFee:
-          type: number
-    Availability:
-      type: object
-      properties:
-        availabilityCalendar:
-          type: array
-          items:
-            type: string
-            format: date
-      minimumStay:
-        type: integer
-      maximumStay:
-        type: integer
+            format: uri
+          description: "array of photo urls"
     Owner:
       type: object
       properties:
@@ -296,14 +273,6 @@ components:
           type: number
         comment:
           type: string
-    Photo:
-      type: object
-      properties:
-        photoId:
-          type: integer
-          format: int64
-        photoUrl:
-          type: string
     Location:
       type: object
       properties:
@@ -319,12 +288,7 @@ components:
         zip:
           type: string
           example: '94301'
-        geolocation:
-          $ref: '#/components/schemas/Geolocation'
-    Geolocation:
-      type: object
-      properties:
-        latitude:
+        latitute:
           type: number
           format: double
         longitude:

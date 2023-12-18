@@ -8,11 +8,7 @@ const envVarsSchema = Joi.object()
   .keys({
     NODE_ENV: Joi.string().valid('production', 'development', 'test').required(),
     PORT: Joi.number().default(3000),
-    PGUSER: Joi.string().required().description('Postgres user'),
-    PGHOST: Joi.string().required().description('Postgres host'),
-    PGDATABASE: Joi.string().required().description('Postgres database name'),
-    PGPASSWORD: Joi.string().required().description('Postgres password'),
-    PGPORT: Joi.number().default(5432),
+    PGURI: Joi.string().required().description('Postgres URI'),
     JWT_SECRET: Joi.string().required().description('JWT secret key'),
     JWT_ACCESS_EXPIRATION_MINUTES: Joi.number().default(30).description('minutes after which access tokens expire'),
     JWT_REFRESH_EXPIRATION_DAYS: Joi.number().default(30).description('days after which refresh tokens expire'),
@@ -35,11 +31,7 @@ module.exports = {
   env: envVars.NODE_ENV,
   port: envVars.PORT,
   postgres: {
-    user: envVars.PGUSER,
-    host: envVars.PGHOST,
-    database: envVars.PGDATABASE,
-    password: envVars.PGPASSWORD,
-    post: envVars.PGPORT,
+    uri: envVars.PGURI,
   },
   jwt: {
     secret: envVars.JWT_SECRET,
